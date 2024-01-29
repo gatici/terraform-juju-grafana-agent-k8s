@@ -12,12 +12,12 @@ variable "model_name" {
 
 variable "metrics_remote_write_offer_url" {
   description = ""
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "logging_offer_url" {
   description = ""
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }

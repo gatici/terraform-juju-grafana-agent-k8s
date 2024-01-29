@@ -4,7 +4,7 @@ This Grafana-agent-k8s Terraform module aims to deploy the [grafana-agent-k8s ch
 
 ## Getting Started
 
-### Install requirements
+### Prerequisites
 
 The following software and tools needs to be installed and should be running in the local environment.
 
@@ -12,38 +12,12 @@ The following software and tools needs to be installed and should be running in 
 - `juju 3.x`
 - `terrafom`
 
-Install Microk8s:
+### Deploy Grafana-agent-k8s using Terraform
 
-```console
-sudo snap install microk8s --channel=1.27-strict/stable
-sudo usermod -a -G snap_microk8s $USER
-newgrp snap_microk8s
-```
-
-Enable `storage` plugin for Microk8s:
+Make sure that `storage` plugin is enabled for Microk8s:
 
 ```console
 sudo microk8s enable hostpath-storage
-```
-
-Install Juju:
-
-```console
-sudo snap install juju --channel=3.1/stable
-```
-
-Install Terraform:
-
-```console
-sudo snap install --classic terraform
-```
-
-### Bootstrap the Juju using Microk8s and create a model to deploy Terraform module
-
-Bootstrap Juju Controller:
-
-```console
-juju bootstrap microk8s
 ```
 
 Add a Juju model:
@@ -52,22 +26,18 @@ Add a Juju model:
 juju add model <model-name>
 ```
 
-### Deploy Mongodb-k8s using Terraform
-
 Initialise the provider:
 
 ```console
 terraform init
 ```
 
-Customize the configuration inputs under `terraform.tfvars` file according to requirement. Make sure that given `model-name` exists.
+Customize the configuration inputs under `terraform.tfvars` file according to requirement.
 
-Sample contents of `terraform.tfvars` file:
+Replace the `model-name` value in the `terraform.tfvars` file:
 
 ```yaml
-model_name =<fill here>
-metrics_remote_write_offer_url =<fill here>
-logging_offer_url =<fill here>
+model_name =<your model-name>
 ```
 
 Run Terraform Plan by providing var-file:
@@ -76,7 +46,7 @@ Run Terraform Plan by providing var-file:
 terraform plan -var-file="terraform.tfvars" 
 ```
 
-Deploy the resources, skip the approval
+Deploy the resources, skip the approval:
 
 ```console
 terraform apply -auto-approve 
@@ -103,7 +73,7 @@ Unit                  Workload  Agent  Address      Ports  Message
 grafana-agent-k8s/0*  blocked   idle   10.1.146.47         Missing incoming ('requires') relation
 ```
 
-### Clean up
+### Clean Up
 
 Remove the application:
 
